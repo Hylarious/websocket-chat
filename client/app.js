@@ -1,3 +1,5 @@
+const socket = io();
+
 const loginForm = document.querySelector('#welcome-form');
 const messageSection = document.querySelector('#messages-section');
 const messageList = document.querySelector('#messages-list');
@@ -7,6 +9,9 @@ const messageContentInput = document.querySelector('#message-content');
 
 let userName = ''
 
+socket.on('message', ({ author, content }) => addMessage(author, content))
+
+
 function login(event) {
     event.preventDefault();
     if (userNameInput.value === '') {
@@ -15,7 +20,7 @@ function login(event) {
         userName = userNameInput.value
         loginForm.classList.remove('show')
         messageSection.classList.add('show')
-        console.log(userName)
+        socket.emit('login', userName)
     }
 };
 
@@ -25,6 +30,7 @@ function sendMessage(event) {
         alert('Your message is empty!')
     } else {
         addMessage(userName, messageContentInput.value);
+        socket.emit('message', { author: userName, content: messageContentInput.value })
         messageContentInput.value = ''
     }
 };

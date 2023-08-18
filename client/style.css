@@ -80,7 +80,7 @@ p {
 
 .message--received {
     animation: fadeIn;
-    animation-duration: 3s;
+    animation-duration: 1s;
 }
 
 .message__author {
